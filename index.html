@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Lab — Обери своє рішення</title>
+  <meta name="description" content="Навчальна онлайн-гра факультету бізнесу, технологій та економіки: 10 карток, 3 варіанти відповіді, рейтинг студентів." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307090d'/%3E%3Crect x='7' y='12' width='4' height='12' fill='%23F5B83D'/%3E%3Crect x='14' y='7' width='4' height='17' fill='%23F5B83D'/%3E%3Crect x='21' y='15' width='4' height='9' fill='%23F5B83D'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <!-- фонова «біржова» сітка та графік -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <svg class="bg-chart" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 330 L80 300 L140 316 L210 250 L280 270 L350 200 L420 228 L500 160 L570 190 L640 120 L720 150 L790 96 L860 130 L940 70 L1010 100 L1090 40 L1200 60" />
+  </svg>
+
+  <!-- ВЕРХНЯ ПАНЕЛЬ -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <div>
+        <div class="brand-name">BUSINESS<span>LAB</span></div>
+        <div class="brand-sub">Факультет бізнесу, технологій та економіки</div>
+      </div>
+    </div>
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track" id="tickerTrack"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= ЕКРАН 1: СТАРТ ================= -->
+    <section class="screen active" id="screenStart">
+      <div class="start-grid">
+        <div class="hero">
+          <div class="eyebrow"><span class="dot"></span> Торги відкрито</div>
+          <h1>Обери<br/>своє <em>рішення</em></h1>
+          <p class="lead">Навчальна гра, де кожна картка — бізнес-ситуація. Обирай картку, ухвалюй рішення та піднімайся в рейтингу студентів.</p>
+          <div class="stats">
+            <div><b>60</b><span>питань у банку</span></div>
+            <div><b>6</b><span>кафедр</span></div>
+            <div><b>10</b><span>карток у грі</span></div>
+          </div>
+        </div>
+
+        <form class="panel register" id="startForm" autocomplete="off">
+          <div class="panel-head">
+            <span class="panel-tag">Реєстрація учасника</span>
+            <span class="mono muted" id="sessionId">#0000</span>
+          </div>
+          <label for="playerName">Твоє ім'я та прізвище</label>
+          <input id="playerName" name="playerName" type="text" maxlength="40" placeholder="Напр.: Олена Коваль" required />
+          <p class="hint">Ім'я з'явиться в загальному рейтингу.</p>
+          <button type="submit" class="btn btn-primary btn-wide">Почати гру <span aria-hidden="true">→</span></button>
+          <button type="button" class="btn btn-ghost btn-wide" id="openRatingBtn">Переглянути рейтинг</button>
+
+          <details class="rules">
+            <summary>Правила гри</summary>
+            <ol>
+              <li>На полі 10 карток — проходь їх у будь-якому порядку.</li>
+              <li>Кожна картка — ситуація з трьома варіантами відповіді.</li>
+              <li>Після підтвердження відповідь змінити не можна.</li>
+              <li>Правильна відповідь — 1 бал, неправильна — 0. Максимум — 10.</li>
+              <li>Після кожної відповіді ти бачиш пояснення.</li>
+              <li>У рейтингу вище той, хто має більше балів; за рівних — хто швидший.</li>
+            </ol>
+          </details>
+        </form>
+      </div>
+
+      <div class="legend" id="deptLegend" aria-label="Кафедри та їхні кольори"></div>
+    </section>
+
+    <!-- ================= ЕКРАН 2: ПОЛЕ КАРТОК ================= -->
+    <section class="screen" id="screenBoard">
+      <div class="board-head">
+        <div>
+          <div class="eyebrow">Учасник</div>
+          <div class="player-name" id="boardPlayer">—</div>
+        </div>
+        <div class="kpis">
+          <div class="kpi">
+            <span>Пройдено карток</span>
+            <b class="mono"><span id="kpiDone">0</span> / <span id="kpiTotal">10</span></b>
+          </div>
+          <div class="kpi">
+            <span>Ваш результат</span>
+            <b class="mono"><span id="kpiScore">0</span> / <span id="kpiMax">10</span></b>
+          </div>
+          <div class="kpi">
+            <span>Час</span>
+            <b class="mono" id="kpiTime">00:00</b>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
+
+      <p class="board-hint">Натисни на картку, щоб відкрити завдання. Колір картки — це кафедра.</p>
+      <div class="cards" id="cardsGrid"></div>
+
+      <div class="board-foot">
+        <button class="btn btn-primary" id="finishBtn" hidden>Подивитися результат і рейтинг →</button>
+      </div>
+    </section>
+
+    <!-- ================= ЕКРАН 3: РЕЗУЛЬТАТ + РЕЙТИНГ ================= -->
+    <section class="screen" id="screenResult">
+      <div class="result-grid">
+        <div class="panel result-card" id="resultCard">
+          <div class="panel-head">
+            <span class="panel-tag">Підсумок</span>
+            <span class="mono muted" id="resultTime">00:00</span>
+          </div>
+          <div class="result-score mono"><span id="resultScore">0</span><small>/ 10</small></div>
+          <div class="result-title" id="resultTitle">—</div>
+          <p class="muted" id="resultText"></p>
+          <div class="result-place" id="resultPlace"></div>
+          <div class="result-breakdown" id="resultBreakdown"></div>
+          <div class="result-actions">
+            <button class="btn btn-primary" id="playAgainBtn">Грати ще раз</button>
+          </div>
+        </div>
+
+        <div class="panel rating">
+          <div class="panel-head">
+            <span class="panel-tag">Рейтинг студентів</span>
+            <span class="mono muted" id="ratingCount">0 учасників</span>
+          </div>
+          <div class="table-wrap">
+            <table class="rating-table">
+              <thead>
+                <tr><th>Місце</th><th>Ім'я студента</th><th>Правильні відповіді</th><th>Час</th><th>Бали</th></tr>
+              </thead>
+              <tbody id="ratingBody"></tbody>
+            </table>
+          </div>
+          <p class="empty" id="ratingEmpty" hidden>Поки що ніхто не зіграв. Будь першим!</p>
+          <div class="rating-foot">
+            <button class="btn btn-ghost btn-sm" id="backToStartBtn">← На головну</button>
+            <button class="btn btn-ghost btn-sm danger" id="clearRatingBtn">Очистити рейтинг</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= МОДАЛЬНЕ ВІКНО ЗАВДАННЯ ================= -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalQuestion">
+      <div class="modal-band"></div>
+      <div class="modal-top">
+        <span class="dept-chip" id="modalDept">—</span>
+        <span class="mono muted" id="modalNum">Картка 1</span>
+        <button class="icon-btn" data-close aria-label="Закрити">✕</button>
+      </div>
+      <h2 id="modalQuestion">—</h2>
+      <div class="options" id="modalOptions"></div>
+      <div class="feedback" id="modalFeedback" hidden>
+        <div class="verdict" id="modalVerdict"></div>
+        <p id="modalExplanation"></p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="confirmBtn" disabled>Підтвердити відповідь</button>
+        <button class="btn btn-primary" id="backBtn" hidden>До карток →</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/questions.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
