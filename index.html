@@ -8,7 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <!-- Стилі розділені за частинами інтерфейсу -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/start.css" />
+  <link rel="stylesheet" href="css/board.css" />
+  <link rel="stylesheet" href="css/modal.css" />
+  <link rel="stylesheet" href="css/results.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307090d'/%3E%3Crect x='7' y='12' width='4' height='12' fill='%23F5B83D'/%3E%3Crect x='14' y='7' width='4' height='17' fill='%23F5B83D'/%3E%3Crect x='21' y='15' width='4' height='9' fill='%23F5B83D'/%3E%3C/svg%3E" />
 </head>
 <body>
@@ -41,9 +49,9 @@
           <h1>Обери<br/>своє <em>рішення</em></h1>
           <p class="lead">Навчальна гра, де кожна картка — бізнес-ситуація. Обирай картку, ухвалюй рішення та піднімайся в рейтингу студентів.</p>
           <div class="stats">
-            <div><b>60</b><span>питань у банку</span></div>
-            <div><b>6</b><span>кафедр</span></div>
-            <div><b>10</b><span>карток у грі</span></div>
+            <div><b id="statQuestions">60</b><span>питань у банку</span></div>
+            <div><b id="statDepts">6</b><span>кафедр</span></div>
+            <div><b id="statCards">10</b><span>карток у грі</span></div>
           </div>
         </div>
 
@@ -116,7 +124,7 @@
             <span class="panel-tag">Підсумок</span>
             <span class="mono muted" id="resultTime">00:00</span>
           </div>
-          <div class="result-score mono"><span id="resultScore">0</span><small>/ 10</small></div>
+          <div class="result-score mono"><span id="resultScore">0</span><small id="resultTotal">/ 10</small></div>
           <div class="result-title" id="resultTitle">—</div>
           <p class="muted" id="resultText"></p>
           <div class="result-place" id="resultPlace"></div>
@@ -172,7 +180,28 @@
     </div>
   </div>
 
-  <script src="js/questions.js"></script>
-  <script src="js/app.js"></script>
+  <!-- Порядок важливий: спочатку налаштування, потім питання, ядро, інтерфейс і запуск -->
+  <script src="js/config.js"></script>
+
+  <!-- Банк питань: один файл = одна кафедра (по 10 питань) -->
+  <script src="js/questions/economics.js"></script>
+  <script src="js/questions/finance.js"></script>
+  <script src="js/questions/marketing.js"></script>
+  <script src="js/questions/management.js"></script>
+  <script src="js/questions/it.js"></script>
+  <script src="js/questions/accounting.js"></script>
+
+  <!-- Ядро: допоміжні функції, рейтинг, правила гри -->
+  <script src="js/core/utils.js"></script>
+  <script src="js/core/leaderboard.js"></script>
+  <script src="js/core/game.js"></script>
+
+  <!-- Інтерфейс: екрани, поле карток, вікно завдання, результат -->
+  <script src="js/ui/screens.js"></script>
+  <script src="js/ui/board.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/results.js"></script>
+
+  <script src="js/main.js"></script>
 </body>
 </html>

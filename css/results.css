@@ -1,0 +1,48 @@
+/* =========================================================================
+   results.css — підсумок гри та таблиця рейтингу
+   ========================================================================= */
+
+/* ---------- результат + рейтинг ---------- */
+.result-grid { display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; }
+.result-score { font-size: 96px; font-weight: 700; line-height: 1; color: var(--accent); }
+.result-score small { font-size: 28px; color: var(--muted); margin-left: 6px; }
+.result-title { font-family: var(--font-display); font-weight: 700; font-size: 22px; margin: 14px 0 4px; }
+.result-place {
+  margin: 18px 0; padding: 14px 16px; border-radius: 12px;
+  border: 1px dashed var(--line-2); font-weight: 600;
+}
+.result-place b { color: var(--accent); font-family: var(--font-mono); font-size: 20px; }
+.result-breakdown { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin-bottom: 22px; }
+.result-breakdown span { height: 28px; border-radius: 6px; position: relative; }
+.result-breakdown span.ok { background: var(--ok); }
+.result-breakdown span.no { background: var(--bad); opacity: .8; }
+.result-breakdown span::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 3px;
+  border-radius: 2px; background: var(--c);
+}
+
+.table-wrap { overflow-x: auto; }
+.rating-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.rating-table th {
+  text-align: left; font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+  text-transform: uppercase; letter-spacing: .1em; color: var(--muted);
+  padding: 10px 12px; border-bottom: 1px solid var(--line-2); white-space: nowrap;
+}
+.rating-table td { padding: 13px 12px; border-bottom: 1px solid var(--line); }
+.rating-table td:nth-child(3), .rating-table td:nth-child(4), .rating-table td:nth-child(5) { font-family: var(--font-mono); white-space: nowrap; }
+.rating-table td:last-child { font-weight: 700; font-size: 18px; }
+.rating-table tr.me td { background: rgba(245, 184, 61, .1); }
+.rating-table tr.me td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+.place {
+  display: inline-grid; place-items: center; min-width: 32px; height: 32px; border-radius: 9px;
+  font-family: var(--font-mono); font-weight: 700; border: 1px solid var(--line-2);
+}
+.place.p1 { background: #f5b83d; color: #1a1203; border-color: #f5b83d; }
+.place.p2 { background: #cbd5e1; color: #10151d; border-color: #cbd5e1; }
+.place.p3 { background: #c98b5a; color: #1a0d03; border-color: #c98b5a; }
+.you-tag {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase;
+  margin-left: 8px; padding: 2px 6px; border-radius: 5px; background: var(--accent); color: var(--accent-ink);
+}
+.empty { color: var(--muted); text-align: center; padding: 30px 0; }
+.rating-foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
