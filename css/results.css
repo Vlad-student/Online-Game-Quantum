@@ -1,48 +1,69 @@
 /* =========================================================================
-   results.css — підсумок гри та таблиця рейтингу
+   results.css — підсумок гри та таблиця рейтингу (як таблиця у слайді)
    ========================================================================= */
 
-/* ---------- результат + рейтинг ---------- */
-.result-grid { display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; }
-.result-score { font-size: 96px; font-weight: 700; line-height: 1; color: var(--accent); }
-.result-score small { font-size: 28px; color: var(--muted); margin-left: 6px; }
-.result-title { font-family: var(--font-display); font-weight: 700; font-size: 22px; margin: 14px 0 4px; }
-.result-place {
-  margin: 18px 0; padding: 14px 16px; border-radius: 12px;
-  border: 1px dashed var(--line-2); font-weight: 600;
-}
-.result-place b { color: var(--accent); font-family: var(--font-mono); font-size: 20px; }
-.result-breakdown { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin-bottom: 22px; }
-.result-breakdown span { height: 28px; border-radius: 6px; position: relative; }
-.result-breakdown span.ok { background: var(--ok); }
-.result-breakdown span.no { background: var(--bad); opacity: .8; }
-.result-breakdown span::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 3px;
-  border-radius: 2px; background: var(--c);
-}
+.result-grid { display: grid; grid-template-columns: 380px 1fr; gap: 28px; align-items: start; }
 
+/* ---------- підсумок ---------- */
+.result-card { text-align: center; }
+.score-hex { width: 200px; margin: 4px auto 18px; }
+.score-hex .hex-inner {
+  display: flex; align-items: baseline; justify-content: center; gap: 6px;
+  padding-top: 32%;
+  background: var(--grad-blue); color: #fff;
+}
+.score-num { font-size: 84px; font-weight: 800; line-height: 1; }
+.score-total { font-size: 24px; font-weight: 700; color: var(--yellow); }
+
+.result-title { font-size: 24px; font-weight: 700; color: var(--blue); }
+.result-text { margin: 6px 0 0; }
+.result-place {
+  margin: 18px 0; padding: 14px 16px;
+  background: var(--yellow-50); border: 2px solid var(--yellow); border-radius: 18px;
+  font-weight: 600; color: var(--ink);
+}
+.result-place b { font-size: 22px; color: var(--blue); }
+
+.result-breakdown { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin-bottom: 22px; }
+.result-breakdown span { aspect-ratio: 1 / 1.1547; clip-path: var(--hex); }
+.result-breakdown span.ok { background: var(--ok); }
+.result-breakdown span.no { background: var(--bad); }
+
+/* ---------- таблиця рейтингу ---------- */
 .table-wrap { overflow-x: auto; }
-.rating-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.rating-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
 .rating-table th {
-  text-align: left; font-family: var(--font-mono); font-weight: 600; font-size: 11px;
-  text-transform: uppercase; letter-spacing: .1em; color: var(--muted);
-  padding: 10px 12px; border-bottom: 1px solid var(--line-2); white-space: nowrap;
+  padding: 13px 14px;
+  background: var(--blue); color: #fff; text-align: left;
+  font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap;
+  border-right: 1.5px solid rgba(255, 255, 255, .25);
 }
-.rating-table td { padding: 13px 12px; border-bottom: 1px solid var(--line); }
-.rating-table td:nth-child(3), .rating-table td:nth-child(4), .rating-table td:nth-child(5) { font-family: var(--font-mono); white-space: nowrap; }
-.rating-table td:last-child { font-weight: 700; font-size: 18px; }
-.rating-table tr.me td { background: rgba(245, 184, 61, .1); }
-.rating-table tr.me td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+.rating-table th:first-child { border-top-left-radius: 14px; }
+.rating-table th:last-child { border-top-right-radius: 14px; border-right: 0; background: var(--blue-2); }
+.rating-table td {
+  padding: 12px 14px;
+  border-bottom: 1.5px solid var(--blue-100); border-right: 1.5px solid var(--blue-100);
+  color: var(--ink);
+}
+.rating-table td:first-child { border-left: 1.5px solid var(--blue-100); }
+.rating-table td:nth-child(3), .rating-table td:nth-child(4) { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rating-table td:last-child { font-size: 18px; font-weight: 700; color: var(--blue); }
+.rating-table tr.me td { background: var(--yellow-50); }
+
 .place {
-  display: inline-grid; place-items: center; min-width: 32px; height: 32px; border-radius: 9px;
-  font-family: var(--font-mono); font-weight: 700; border: 1px solid var(--line-2);
+  display: inline-grid; place-items: center;
+  width: 34px; height: 39px;
+  clip-path: var(--hex); background: var(--blue-50);
+  color: var(--blue); font-weight: 700;
 }
-.place.p1 { background: #f5b83d; color: #1a1203; border-color: #f5b83d; }
-.place.p2 { background: #cbd5e1; color: #10151d; border-color: #cbd5e1; }
-.place.p3 { background: #c98b5a; color: #1a0d03; border-color: #c98b5a; }
+.place.p1 { background: var(--yellow); color: var(--ink); }
+.place.p2 { background: #c9cee3; color: var(--ink); }
+.place.p3 { background: #f2a766; color: var(--ink); }
+
 .you-tag {
-  font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase;
-  margin-left: 8px; padding: 2px 6px; border-radius: 5px; background: var(--accent); color: var(--accent-ink);
+  margin-left: 8px; padding: 2px 8px; border-radius: 999px;
+  background: var(--yellow); color: var(--ink);
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
 }
-.empty { color: var(--muted); text-align: center; padding: 30px 0; }
-.rating-foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.empty { padding: 30px 0; text-align: center; color: var(--muted); }
+.rating-foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 20px; }

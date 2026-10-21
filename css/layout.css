@@ -1,56 +1,128 @@
 /* =========================================================================
-   layout.css — верхня панель, бігуча стрічка, екрани
+   layout.css — хедер-«пілюля» з кафедрами, меню, екрани, футер
    ========================================================================= */
 
-/* ---------- верхня панель ---------- */
-.topbar {
-  position: sticky; top: 0; z-index: 20;
-  display: flex; align-items: center; gap: 24px;
-  padding: 14px 28px;
-  background: rgba(7, 9, 13, 0.78);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
+/* ---------- хедер ---------- */
+.site-header {
+  position: sticky; top: 12px; z-index: 40;
+  margin-top: 14px; padding: 0 24px;
 }
-.brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.brand-mark { display: flex; align-items: flex-end; gap: 3px; height: 26px; }
-.brand-mark i { display: block; width: 6px; background: var(--accent); border-radius: 2px; }
-.brand-mark i:nth-child(1) { height: 55%; }
-.brand-mark i:nth-child(2) { height: 100%; }
-.brand-mark i:nth-child(3) { height: 40%; opacity: .6; }
-.brand-name { font-family: var(--font-display); font-weight: 900; letter-spacing: .04em; font-size: 17px; }
-.brand-name span { color: var(--accent); margin-left: 4px; }
-.brand-sub { font-size: 11px; color: var(--muted); letter-spacing: .02em; }
+.header-pill {
+  position: relative;
+  max-width: 1240px; min-height: 60px; margin: 0 auto;
+  display: flex; align-items: center; gap: 14px;
+  padding: 6px 8px 6px 20px;
+  border: 2px solid var(--yellow); border-radius: 999px;
+  /* синій зліва, що переходить у білий — як у шапці слайдів */
+  background: linear-gradient(90deg, var(--blue) 0, #3d3df2 150px, #e6e8ff 250px, #fff 330px);
+  box-shadow: 0 14px 34px -22px rgba(26, 26, 212, 0.6);
+}
 
-.ticker {
-  flex: 1; overflow: hidden; min-width: 0;
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+.logo {
+  display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0;
+  padding-right: 26px;
+  color: #fff; text-decoration: none;
+  font-weight: 700; font-size: 20px; letter-spacing: .01em;
 }
-.ticker-track {
-  display: inline-flex; gap: 36px; white-space: nowrap;
-  font-family: var(--font-mono); font-size: 13px;
-  animation: ticker 40s linear infinite;
+.logo-mark {
+  display: grid; place-items: center;
+  width: 26px; height: 30px;
+  clip-path: var(--hex); background: var(--yellow);
+  color: var(--blue); font-weight: 800; font-size: 14px;
 }
-.ticker-item { display: inline-flex; gap: 8px; align-items: center; }
-.ticker-item b { font-weight: 700; }
-.ticker-item .up { color: var(--ok); }
-.ticker-item .down { color: var(--bad); }
-@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-/* ---------- екрани ---------- */
-main { max-width: 1240px; margin: 0 auto; padding: 40px 28px 80px; }
+/* кафедри в хедері */
+.dept-nav {
+  flex: 1; min-width: 0;
+  display: flex; justify-content: center; gap: 2px;
+  margin: 0; padding: 0; list-style: none;
+}
+.dept-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 11px; border-radius: 999px;
+  border: 1.5px solid transparent;
+  font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap;
+  transition: border-color .2s, background .2s;
+}
+.dept-chip:hover { border-color: var(--c); background: color-mix(in srgb, var(--c) 12%, #fff); }
+.dept-dot {
+  display: inline-block; flex-shrink: 0;
+  width: 12px; height: 14px;
+  clip-path: var(--hex); background: var(--c);
+}
+
+.menu-btn {
+  margin-left: auto; flex-shrink: 0;
+  display: grid; place-items: center;
+  width: 44px; height: 44px; border: 0; border-radius: 50%;
+  background: transparent; color: var(--blue); cursor: pointer;
+  transition: background .2s;
+}
+.menu-btn:hover, .menu-btn[aria-expanded="true"] { background: var(--blue-50); }
+.menu-btn svg { width: 22px; height: 22px; }
+
+/* ---------- випадне меню ---------- */
+.menu {
+  position: absolute; right: 0; top: calc(100% + 10px);
+  width: min(360px, calc(100vw - 32px));
+  padding: 18px;
+  background: #fff;
+  border: 2px solid var(--yellow); border-radius: 24px;
+  box-shadow: var(--shadow-lg);
+  animation: pop .2s ease both;
+}
+.menu-title {
+  margin: 0 0 10px;
+  font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--muted);
+}
+.menu-depts { margin: 0; padding: 0; list-style: none; }
+.menu-dept {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 0; font-size: 14px; color: var(--ink);
+}
+.menu-actions {
+  display: grid; gap: 4px;
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.menu-action {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; border: 0; border-radius: 14px;
+  background: none; color: var(--ink); text-align: left;
+  font-weight: 600; font-size: 15px; cursor: pointer;
+}
+.menu-action:hover { background: var(--blue-50); color: var(--blue); }
+
+/* ---------- основна частина та екрани ---------- */
+main {
+  position: relative; z-index: 1;
+  max-width: 1240px; margin: 0 auto;
+  padding: 44px 24px 64px;
+}
 .screen { display: none; }
 .screen.active { display: block; animation: rise .45s ease both; }
-@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
-.eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--font-mono); font-size: 12px; text-transform: uppercase;
-  letter-spacing: .14em; color: var(--muted);
+/* ---------- футер ---------- */
+.site-footer {
+  position: relative; z-index: 1;
+  max-width: 1240px; margin: 0 auto 28px; padding: 0 24px;
 }
-.eyebrow .dot {
-  width: 8px; height: 8px; border-radius: 50%; background: var(--ok);
-  box-shadow: 0 0 0 0 rgba(34, 197, 94, .6); animation: pulse 1.8s infinite;
+.footer-inner {
+  display: grid; grid-template-columns: 1fr 1.4fr 1.4fr; gap: 28px;
+  padding: 26px 30px;
+  background: #fff;
+  border: 2px solid var(--line); border-radius: 28px;
+  font-size: 14px;
 }
-@keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
+.footer-title { font-size: 30px; }
+.footer-brand p { margin: 10px 0 0; color: var(--muted); }
+.team { margin: 12px 0 0; padding-left: 18px; }
+.team li { margin-bottom: 4px; font-style: italic; color: var(--ink); }
+.team span { font-style: normal; color: var(--muted); font-size: 12px; margin-left: 4px; }
+.supervisor { margin: 12px 0 8px; color: var(--ink); }
+.uni { margin: 0; font-weight: 700; color: var(--blue); }
+.footer-bars { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+.footer-bars i { display: block; height: 6px; border-radius: 3px; }
+.footer-bars i:first-child { width: 24px; background: var(--yellow); }
+.footer-bars i:last-child { width: 110px; background: var(--grad-blue); }

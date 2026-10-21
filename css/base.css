@@ -1,65 +1,80 @@
 /* =========================================================================
-   base.css — кольори, шрифти, скидання стилів, фон-«біржова сітка»
+   base.css — кольори, шрифт, скидання стилів, декоративні шестикутники
+   Палітра й форми взяті з презентації проєкту (Canva):
+   білий фон, королівський синій + жовтий, шестикутники, шрифт Poppins.
    ========================================================================= */
 
 :root {
-  --bg: #07090d;
-  --bg-2: #0c1016;
-  --panel: rgba(16, 21, 29, 0.82);
-  --panel-solid: #10151d;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-2: rgba(255, 255, 255, 0.14);
-  --text: #e9eef5;
-  --muted: #8792a2;
-  --accent: #f5b83d;
-  --accent-ink: #1a1203;
-  --ok: #22c55e;
-  --ok-bg: rgba(34, 197, 94, 0.14);
-  --bad: #ef4444;
-  --bad-bg: rgba(239, 68, 68, 0.14);
-  --radius: 18px;
-  --font-display: "Unbounded", system-ui, sans-serif;
-  --font-body: "Manrope", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* синій */
+  --blue-deep: #0d0d8f;
+  --blue: #1a1ad4;
+  --blue-2: #2f5bff;
+  --blue-100: #dadcfd;
+  --blue-50: #eef0ff;
+
+  /* жовтий */
+  --yellow: #ffc700;
+  --yellow-2: #ffd84d;
+  --yellow-50: #fff7d6;
+
+  /* текст і фон */
+  --ink: #14142b;
+  --text: #2a2c45;
+  --muted: #62667f;
+  --line: #e4e6f2;
+  --bg: #ffffff;
+  --bg-soft: #f6f7fc;
+
+  /* правильно / неправильно */
+  --ok: #16a34a;
+  --ok-bg: #e9f9ef;
+  --bad: #dc2626;
+  --bad-bg: #fdecec;
+
+  --grad-blue: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue) 45%, var(--blue-2) 100%);
+  --hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); /* шестикутник */
+  --font: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --shadow-lg: 0 30px 70px -30px rgba(20, 20, 110, 0.45);
 }
 
-* { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 html, body { margin: 0; }
+
 body {
+  position: relative;
   min-height: 100vh;
-  background:
-    radial-gradient(900px 500px at 85% -10%, rgba(245, 184, 61, 0.12), transparent 60%),
-    radial-gradient(800px 600px at -10% 110%, rgba(91, 140, 255, 0.12), transparent 60%),
-    var(--bg);
+  font-family: var(--font);
   color: var(--text);
-  font-family: var(--font-body);
-  line-height: 1.5;
+  background: var(--bg);
+  line-height: 1.55;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-.mono { font-family: var(--font-mono); }
-.muted { color: var(--muted); }
 [hidden] { display: none !important; }
+button { font: inherit; }
+img { display: block; max-width: 100%; }
+.muted { color: var(--muted); }
 
-/* ---------- фон ---------- */
-.bg-grid {
-  position: fixed; inset: 0; z-index: -2; pointer-events: none;
-  background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse at 50% 30%, #000 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 30%, transparent 80%);
-  opacity: 0.55;
+/* ---------- декоративні шестикутники на фоні ---------- */
+.deco {
+  position: absolute; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
 }
-.bg-chart {
-  position: fixed; left: 0; right: 0; bottom: 0; height: 45vh; width: 100%;
-  z-index: -1; pointer-events: none; opacity: 0.22;
-}
-.bg-chart path {
-  fill: none; stroke: var(--accent); stroke-width: 2;
-  stroke-dasharray: 2600; stroke-dashoffset: 2600;
-  animation: draw 4s ease-out forwards;
-  vector-effect: non-scaling-stroke;
-}
-@keyframes draw { to { stroke-dashoffset: 0; } }
+.deco-hex { position: absolute; aspect-ratio: 1 / 1.1547; clip-path: var(--hex); }
+.deco-blue { background: var(--grad-blue); }
+.deco-yellow { background: var(--yellow); }
+
+.deco-tl { width: 380px; top: -230px; left: -170px; }
+.deco-br { width: 440px; bottom: -250px; right: -190px; }
+.deco-y1 { width: 58px; top: 470px; left: 26px; }
+.deco-y2 { width: 66px; top: 300px; right: 36px; }
+
+.deco-line { position: absolute; }
+.deco-line polygon { fill: none; stroke: var(--yellow); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.deco-l1 { width: 280px; top: 380px; left: -170px; }
+.deco-l2 { width: 260px; top: 150px; right: -150px; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes pop  { from { opacity: 0; transform: scale(.95) translateY(8px); } to { opacity: 1; transform: none; } }

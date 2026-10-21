@@ -1,40 +1,71 @@
 /* =========================================================================
-   ui/board.js — поле з 10 картками, лічильники та таймер
+   ui/board.js — поле з 10 картками-«стільниками», лічильники та таймер
    ========================================================================= */
 BL.board = {
   timer: null,
 
   render() {
-    const { $ } = BL.utils;
-    const grid = $("#cardsGrid");
+    const grid = BL.utils.$("#cardsGrid");
     grid.innerHTML = "";
     BL.game.cards.forEach((card, i) => grid.append(this.createCard(card, i)));
+    this.layout();
     this.updateStats();
   },
 
-  /** Одна картка-«актив» у кольорі своєї кафедри */
+  /** Одна шестикутна картка в кольорі своєї кафедри */
   createCard(card, i) {
     const d = BL.departments[card.q.dept];
     const status = card.answered ? ` done ${card.isCorrect ? "correct" : "wrong"}` : "";
     const btn = BL.utils.el("button", {
-      class: "card" + status,
+      class: "hex-card" + status,
       type: "button",
-      style: `--c:${d.color}; animation-delay:${i * 45}ms`,
-      "aria-label": `Картка ${i + 1}, ${d.name}${card.answered ? ", пройдена" : ""}`
+      style: `--c:${d.color}; --ink-c:${d.ink}; animation-delay:${i * 50}ms`,
+      "aria-label": `Картка ${i + 1}, ${d.name}${card.answered ? (card.isCorrect ? ", правильно" : ", неправильно") : ""}`
     });
     btn.innerHTML = `
-      <div class="card-top">
-        <span class="card-ticker">${d.ticker}</span>
-        <span class="card-label">Картка</span>
-      </div>
-      <div class="card-num">${i + 1}</div>
-      <svg class="card-spark" viewBox="0 0 100 34" preserveAspectRatio="none"><path d="${card.spark}"/></svg>
-      <div class="card-dept"></div>
-      ${card.answered ? `<div class="card-stamp">${card.isCorrect ? "✓ +1 бал" : "✗ 0 балів"}</div>` : ""}
+      <span class="hx-border"></span>
+      <span class="hx-gap"></span>
+      <span class="hx-face"></span>
+      <span class="hx-content">
+        <span class="hx-ticker">${d.ticker}</span>
+        <span class="hx-num">${i + 1}</span>
+        <span class="hx-name"></span>
+      </span>
+      ${card.answered ? `<span class="hx-stamp">${card.isCorrect ? "✓ +1 бал" : "✗ 0 балів"}</span>` : ""}
     `;
-    btn.querySelector(".card-dept").textContent = d.name;
+    btn.querySelector(".hx-name").textContent = d.short;
     btn.addEventListener("click", () => BL.modal.open(i));
     return btn;
+  },
+
+  /** Скільки карток у ряду залежно від ширини поля */
+  columnsFor(width) {
+    if (width >= 900) return 5;
+    if (width >= 640) return 4;
+    if (width >= 430) return 3;
+    return 2;
+  },
+
+  /** Розкладка «стільниками»: кожен другий ряд зсунутий на пів картки,
+      неповний останній ряд вирівнюється по центру */
+  layout() {
+    const grid = BL.utils.$("#cardsGrid");
+    const width = grid.clientWidth;
+    if (!width) return; // поле ще приховане
+
+    const cols = this.columnsFor(width);
+    grid.style.setProperty("--cols", cols);
+    grid.style.gridTemplateColumns = `repeat(${cols * 2 + 1}, minmax(0, 1fr))`;
+
+    const items = [...grid.children];
+    items.forEach((item, i) => {
+      const row = Math.floor(i / cols);
+      const inRow = Math.min(cols, items.length - row * cols);
+      const slot = (i % cols) + Math.floor((cols - inRow) / 2);
+      const start = 1 + (row % 2) + slot * 2;
+      item.style.gridColumn = `${start} / span 2`;
+      item.style.gridRow = String(row + 1);
+    });
   },
 
   /** «Пройдено карток», «Ваш результат», смуга прогресу */

@@ -12,15 +12,19 @@ BL.config = {
   storageKey: "businessLab.leaderboard.v1"
 };
 
-/* Кафедри: код → назва, коротка «біржова» мітка, колір картки.
-   Назви можна змінити на точні назви ваших кафедр. */
+/* Кафедри факультету — показуються в хедері, у меню та на картках.
+   name   — повна назва
+   short  — коротка назва (хедер і картки)
+   ticker — мітка на картці
+   color  — колір картки цієї кафедри
+   ink    — колір тексту поверх color (білий на темних, темний на світлих) */
 BL.departments = {
-  econ: { name: "Кафедра економіки",                       ticker: "ECON", color: "#F5B83D" },
-  fin:  { name: "Кафедра фінансів і банківської справи",   ticker: "FIN",  color: "#5B8CFF" },
-  mkt:  { name: "Кафедра маркетингу",                      ticker: "MKT",  color: "#F472B6" },
-  mgt:  { name: "Кафедра менеджменту",                     ticker: "MGT",  color: "#A78BFA" },
-  it:   { name: "Кафедра інформаційних технологій",        ticker: "IT",   color: "#2DD4E6" },
-  acc:  { name: "Кафедра обліку, аудиту та оподаткування", ticker: "ACC",  color: "#EDE3CC" }
+  econ: { name: "Кафедра економіки",                       short: "Економіка",     ticker: "ECON", color: "#FFC400", ink: "#1B1400" },
+  fin:  { name: "Кафедра фінансів і банківської справи",   short: "Фінанси",       ticker: "FIN",  color: "#2342F0", ink: "#FFFFFF" },
+  mkt:  { name: "Кафедра маркетингу",                      short: "Маркетинг",     ticker: "MKT",  color: "#E8358A", ink: "#FFFFFF" },
+  mgt:  { name: "Кафедра менеджменту",                     short: "Менеджмент",    ticker: "MGT",  color: "#7A3CF0", ink: "#FFFFFF" },
+  it:   { name: "Кафедра інформаційних технологій",        short: "IT",            ticker: "IT",   color: "#12B5D6", ink: "#062530" },
+  acc:  { name: "Кафедра обліку, аудиту та оподаткування", short: "Облік і аудит", ticker: "ACC",  color: "#FF7A1A", ink: "#2A1000" }
 };
 
 /* Спільний банк питань. Кожен файл із папки js/questions/

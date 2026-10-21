@@ -39,17 +39,6 @@ BL.utils = {
     return node;
   },
 
-  /** Випадкова лінія-«графік» для прикраси картки (SVG path) */
-  sparkPath() {
-    let y = 20 + Math.random() * 10;
-    let d = `M0 ${y.toFixed(1)}`;
-    for (let x = 10; x <= 100; x += 10) {
-      y = Math.min(32, Math.max(2, y + (Math.random() - 0.55) * 12));
-      d += ` L${x} ${y.toFixed(1)}`;
-    }
-    return d;
-  },
-
   /** Українська форма слова: 1 учасник, 2 учасники, 5 учасників */
   plural(n, one, few, many) {
     const n10 = n % 10, n100 = n % 100;

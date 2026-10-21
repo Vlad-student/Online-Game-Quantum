@@ -18,9 +18,16 @@ BL.game = {
     this.resultId = null;
   },
 
+  /** Вийти з гри без збереження результату */
+  reset() {
+    this.cards = [];
+    this.startedAt = 0;
+    this.finishedAt = 0;
+  },
+
   /** Випадковий вибір карток із банку питань (60 → 10) */
   pickCards() {
-    const { shuffle, sparkPath } = BL.utils;
+    const { shuffle } = BL.utils;
     const { cardsPerGame, balancedByDepartment, shuffleOptions } = BL.config;
     const all = BL.questions;
     const n = Math.min(cardsPerGame, all.length);
@@ -43,7 +50,7 @@ BL.game = {
     return shuffle(picked).map((q) => {
       let options = q.options.map((text, i) => ({ text, isCorrect: i === q.correct }));
       if (shuffleOptions) options = shuffle(options);
-      return { q, options, answered: false, chosen: null, isCorrect: false, spark: sparkPath() };
+      return { q, options, answered: false, chosen: null, isCorrect: false };
     });
   },
 

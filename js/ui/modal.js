@@ -17,7 +17,9 @@ BL.modal = {
     this.current = index;
     this.selected = null;
 
-    this.root.querySelector(".modal-card").style.setProperty("--c", d.color);
+    const cardEl = this.root.querySelector(".modal-card");
+    cardEl.style.setProperty("--c", d.color);
+    cardEl.style.setProperty("--ink-c", d.ink);
     $("#modalDept").textContent = `${d.ticker} · ${d.name}`;
     $("#modalNum").textContent = `Картка ${index + 1} / ${BL.game.cards.length}`;
     $("#modalQuestion").textContent = card.q.question;
