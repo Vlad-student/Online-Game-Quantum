@@ -20,17 +20,18 @@
 </svg>
 
 <header class="topbar">
-  <button class="home-btn" id="homeBtn" type="button" hidden>← На головну</button>
-  <div class="ticker" aria-label="Факультети університету">
-    <div class="ticker-track" id="tickerTrack"></div>
-  </div>
-  <button class="theme-btn" id="themeBtn" type="button" aria-label="Перемкнути тему"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path id="themeIcon" d=""></path></svg><span id="themeLabel">Темна</span></button>
   <div class="brand">
     <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
     <div>
       <div class="brand-name">BUSINESS<span>LAB</span></div>
+      <div class="brand-sub">Факультет бізнесу, технологій та економіки</div>
     </div>
   </div>
+  <button class="home-btn" id="homeBtn" type="button" hidden>← На головну</button>
+  <div class="ticker" aria-label="Кафедри факультету">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+  <button class="theme-btn" id="themeBtn" type="button" aria-label="Перемкнути тему"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path id="themeIcon" d=""></path></svg><span id="themeLabel">Темна</span></button>
 </header>
 
 <main>
@@ -38,8 +39,14 @@
   <section class="screen active" id="screenStart">
     <div class="start-grid">
       <div class="hero">
-        <h1>Обери<br>своє <em>рішення</em></h1>
-        <p class="lead">Навчальна гра, де кожна картка — бізнес-ситуація. Обирай картку, ухвалюй рішення та піднімайся в рейтингу студентів.</p>
+        <!-- Інфографіка кафедр: img/kafedry.jpg (світла тема) і img/kafedry-dark.jpg (темна тема) -->
+        <figure class="dept-figure">
+          <!-- світла тема -->
+          <img class="fig-light" src="img/kafedry.jpg" width="1448" height="1086"
+               alt="Шість кафедр факультету: Облік та фінанси; Маркетинг та логістика; Бізнес та управління; Менеджмент та адміністрування; Економіка та митна справа; Цифрові технології в бізнесі та економіці">
+          <!-- темна тема (вмикається разом із кнопкою «Темна») -->
+          <img class="fig-dark" src="img/kafedry-dark.jpg" width="1448" height="1086" alt="" aria-hidden="true">
+        </figure>
         <div class="stats">
           <div><b id="statQ">60</b><span>питань у банку</span></div>
           <div><b>6</b><span>кафедр</span></div>
@@ -152,12 +159,12 @@
 
   <!-- Порядок важливий: налаштування → питання → логіка гри -->
   <script src="js/config.js"></script>
-  <script src="js/questions/marketing.js"></script>
-  <script src="js/questions/management.js"></script>
-  <script src="js/questions/accounting.js"></script>
-  <script src="js/questions/finance.js"></script>
-  <script src="js/questions/it.js"></script>
-  <script src="js/questions/economics.js"></script>
+  <script src="js/questions/marketing-logistics.js"></script>
+  <script src="js/questions/management-administration.js"></script>
+  <script src="js/questions/accounting-finance.js"></script>
+  <script src="js/questions/business-management.js"></script>
+  <script src="js/questions/digital-technologies.js"></script>
+  <script src="js/questions/economics-customs.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

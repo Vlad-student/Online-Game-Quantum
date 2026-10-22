@@ -3,19 +3,25 @@ const QUESTIONS = window.BL.questions;
 
 const DEPTS = {
   mkt:  { code: "МЛ",  name: "Маркетинг і логістика", color: "var(--d-mkt)",
-          desc: "Як продукт знаходить клієнта: ринок, сегментація, просування, ціна й ланцюги постачання." },
+          desc: "Вивчає ринок і покупців, просуває товари та налагоджує доставку й постачання.",
+          icon: '<path d="M2 6h11v9H2z"/><path d="M13 9h4.5L21 12.5V15h-8"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>' },
   mgt:  { code: "МА",  name: "Менеджмент та адміністрування", color: "var(--d-mgt)",
-          desc: "Управління командами та процесами: цілі, лідерство, делегування, рішення й конфлікти." },
+          desc: "Готує керівників: планування, мотивація команди, повноваження й контроль.",
+          icon: '<circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 13.8c.5-.2 1-.3 1.5-.3 2.5 0 4.5 1.8 4.5 4.5"/>' },
   acc:  { code: "ОФ",  name: "Облік та фінанси", color: "var(--d-acc)",
-          desc: "Мова бізнесу: баланс, звітність, амортизація, податки, аудит." },
-  fin:  { code: "БУ",  name: "Бізнес та управління", color: "var(--d-fin)",
-          desc: "Гроші в рішеннях: інвестиції, кредити, ризики, ліквідність і фінансова безпека." },
+          desc: "Веде облік майна, доходів і витрат, рахує собівартість і шукає фінансування.",
+          icon: '<rect x="5" y="2.5" width="14" height="19" rx="2.5"/><rect x="8" y="5.5" width="8" height="4" rx="1"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5h.01"/>' },
+  bus:  { code: "БУ",  name: "Бізнес та управління", color: "var(--d-bus)",
+          desc: "Вчить будувати прибуткову справу: рентабельність, ризики й управлінські рішення.",
+          icon: '<rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/><path d="M7 16l3-3 2.5 2L17 11"/><path d="M14.5 11H17v2.5"/>' },
   it:   { code: "ЦТ",  name: "Цифрові технології в бізнесі та економіці", color: "var(--d-it)",
-          desc: "Цифрові інструменти компанії: CRM, ERP, хмари, дані, кібербезпека." },
+          desc: "Поєднує бізнес і IT: аналіз даних, хмари, цифрові платформи та штучний інтелект.",
+          icon: '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2.5V6M15 2.5V6M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/>' },
   econ: { code: "ЕМС", name: "Економіка та митна справа", color: "var(--d-econ)", on: "#1a1203", text: "var(--econ-text)",
-          desc: "Як працюють ринки: попит і пропозиція, інфляція, ВВП, монетарна політика." }
+          desc: "Зовнішня торгівля: експорт та імпорт, валютний курс, митна вартість і тарифи.",
+          icon: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.5 3.8 5.5 3.8 9s-1.2 6.5-3.8 9c-2.6-2.5-3.8-5.5-3.8-9S9.4 5.5 12 3z"/>' }
 };
-const ORDER = ["mkt", "mgt", "acc", "fin", "it", "econ"];
+const ORDER = ["mkt", "mgt", "acc", "bus", "it", "econ"];
 const CARDS = 10;
 function paint(n, k) { const d = DEPTS[k]; n.style.setProperty("--c", d.color); if (d.on) n.style.setProperty("--on", d.on); if (d.text) n.style.setProperty("--c-text", d.text); }
 const LETTERS = ["A", "B", "C"];
@@ -38,29 +44,16 @@ function sparkPath() {
 let state = { screen: "start", player: "", cards: [], startedAt: 0, finishedAt: 0, resultId: null };
 let openIdx = -1, selected = null, timerId = null;
 
-/* ---------- старт: біжучий рядок і кафедри ---------- */
-const FACULTIES = [
-  ["ФКНТ", "Факультет комп'ютерних наук і технологій", "#2563eb"],
-  ["ФІБЕК", "Факультет інформаційної безпеки та електронних комунікацій", "#0891b2"],
-  ["ФБАД", "Факультет будівництва, архітектури та дизайну", "#ea580c"],
-  ["МФ", "Машинобудівний факультет", "#64748b"],
-  ["ЕТФ", "Електротехнічний факультет", "#eab308", "#1a1203"],
-  ["ІФФ", "Інженерно-фізичний факультет", "#7c3aed"],
-  ["ТФ", "Транспортний факультет", "#0d9488"],
-  ["ФБТЕ", "Факультет бізнес-технологій та економіки", "#f5b83d", "#1a1203"],
-  ["ЮФ", "Юридичний факультет", "#9f1239"],
-  ["ФСН", "Факультет соціальних наук", "#db2777"],
-  ["ГФ", "Гуманітарний факультет", "#65a30d"],
-  ["ФУФКС", "Факультет управління фізичною культурою та спортом", "#dc2626"]
-];
+/* ---------- старт: біжучий рядок кафедр ---------- */
 function renderTicker() {
+  // кафедри йдуть двічі в кожній групі, щоб рядок був безперервним навіть на широкому екрані
   const group = () => {
     const g = el("span", "ticker-group");
-    FACULTIES.forEach(([code, name, color, ink]) => {
-      const it = el("span", "ticker-item" + (code === "ФБТЕ" ? " home" : ""));
-      it.style.setProperty("--c", color);
-      if (ink) it.style.setProperty("--on", ink);
-      it.append(el("span", "code", code), name);
+    [...ORDER, ...ORDER].forEach((k) => {
+      const d = DEPTS[k];
+      const it = el("span", "ticker-item");
+      paint(it, k);
+      it.append(el("span", "code", d.code), d.name);
       g.append(it);
     });
     return g;
@@ -96,6 +89,24 @@ function initTheme() {
 }
 function renderDepts() {
   $("statQ").textContent = QUESTIONS.length;
+  // 6 плиток кафедр на головній: іконка, код, назва, опис і кількість питань
+  const box = $("deptTiles");
+  if (!box) return; // у варіанті з картинкою плиток немає
+  box.textContent = "";
+  ORDER.forEach((k, i) => {
+    const d = DEPTS[k];
+    const count = QUESTIONS.filter((q) => q.dept === k).length;
+    const t = el("article", "dept-tile");
+    paint(t, k);
+    t.style.animationDelay = i * 70 + "ms";
+    t.innerHTML =
+      '<svg class="tile-bg" viewBox="0 0 24 24" aria-hidden="true">' + d.icon + '</svg>' +
+      '<div class="tile-top"><span class="tile-icon"><svg viewBox="0 0 24 24" aria-hidden="true">' + d.icon + '</svg></span>' +
+      '<span class="tile-code">' + d.code + '</span></div>';
+    t.append(el("h3", "tile-name", d.name), el("p", "tile-desc", d.desc),
+             el("span", "tile-count", count + " " + plural(count, "питання", "питання", "питань")));
+    box.append(t);
+  });
 }
 
 /* ---------- екрани ---------- */

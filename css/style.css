@@ -29,7 +29,7 @@
   --d-mkt: #1e9fe0;  /* блакитний */
   --d-mgt: #c2185b;  /* малиновий */
   --d-acc: #2e9e4f;  /* зелений */
-  --d-fin: #e53935;  /* червоний */
+  --d-bus: #f57c00;  /* помаранчевий */
   --d-it:  #7b3fc4;  /* фіолетовий */
   --d-econ:#f2b705;  /* жовтий */
   --econ-text: #a87d00;
@@ -65,7 +65,7 @@
   --d-mkt: #38bdf8;
   --d-mgt: #e0457b;
   --d-acc: #34c76f;
-  --d-fin: #f04a4a;
+  --d-bus: #ff9a3c;
   --d-it:  #9b6bff;
   --d-econ:#f5c542;
   --econ-text: #f5c542;
@@ -127,23 +127,22 @@ button { font: inherit; color: inherit; }
 .ticker-track { display: inline-flex; white-space: nowrap; animation: ticker 48s linear infinite; }
 .ticker:hover .ticker-track { animation-play-state: paused; }
 .ticker-group { display: inline-flex; gap: 34px; padding-right: 34px; }
-.ticker-item { display: inline-flex; gap: 10px; align-items: center; font-size: 13px; color: var(--text-2); }
+.ticker-item { display: inline-flex; gap: 10px; align-items: center; font-size: 13px; font-weight: 600; color: var(--text); }
 .ticker-item .code { font-family: var(--font-mono); font-weight: 700; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--c); color: var(--on, #fff); }
-.ticker-item.home { color: var(--text); font-weight: 700; }
 .theme-btn { flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; background: var(--icon-bg); border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; cursor: pointer; }
 .theme-btn:hover { border-color: var(--text); }
 .theme-btn svg { width: 16px; height: 16px; }
 @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-.brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; text-align: right; }
-.brand-mark { display: flex; align-items: flex-end; gap: 3px; height: 26px; order: 2; }
-.brand-mark i { display: block; width: 6px; background: var(--accent); border-radius: 2px; }
+.brand { display: flex; align-items: center; gap: 14px; flex-shrink: 0; text-align: left; }
+.brand-mark { display: flex; align-items: flex-end; gap: 4px; height: 36px; }
+.brand-mark i { display: block; width: 8px; background: var(--accent); border-radius: 2px; }
 .brand-mark i:nth-child(1) { height: 55%; }
 .brand-mark i:nth-child(2) { height: 100%; }
 .brand-mark i:nth-child(3) { height: 40%; opacity: .6; }
-.brand-name { font-family: var(--font-display); font-weight: 900; letter-spacing: .04em; font-size: 18px; line-height: 1.2; }
+.brand-name { font-family: var(--font-display); font-weight: 900; letter-spacing: .03em; font-size: 28px; line-height: 1.05; white-space: nowrap; }
 .brand-name span { color: var(--accent-text); margin-left: 4px; }
-.brand-sub { font-size: 11px; color: var(--muted); letter-spacing: .02em; }
+.brand-sub { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .02em; margin-top: 3px; white-space: nowrap; }
 
 /* ---------- екрани ---------- */
 main {
@@ -180,9 +179,7 @@ main {
 /* ---------- старт ---------- */
 .start-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: start; }
 .hero h1 { font-family: var(--font-display); font-weight: 900; font-size: clamp(40px, 6.4vw, 84px); line-height: .98; letter-spacing: -.02em; margin: 0 0 22px; }
-.hero h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 2px var(--accent-text); }
-.lead { font-size: 18px; color: var(--text-2); max-width: 540px; margin: 0 0 28px; }
-.stats { display: flex; border: 1px solid var(--line-2); border-radius: 14px; width: fit-content; max-width: 100%; overflow: hidden; margin-bottom: 36px; }
+.stats { display: flex; background: var(--panel); border: 1px solid var(--line-2); border-radius: 14px; width: fit-content; max-width: 100%; overflow: hidden; margin-bottom: 36px; }
 .stats div { padding: 14px 22px; border-right: 1px solid var(--line-2); }
 .stats div:last-child { border-right: 0; }
 .stats b { display: block; font-family: var(--font-mono); font-size: 28px; color: var(--accent-text); }
@@ -319,6 +316,68 @@ main {
 .store-note { font-size: 12px; color: var(--muted); }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); background: var(--panel-solid); border: 1px solid var(--line-2); color: var(--text); padding: 10px 16px; border-radius: 10px; font-size: 14px; z-index: 60; max-width: calc(100% - 32px); }
 
+/* ---------- 6 плиток кафедр на головній ---------- */
+.tiles-head { margin-bottom: 14px; }
+.dept-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 26px; }
+.dept-tile {
+  position: relative; overflow: hidden; min-height: 236px;
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 20px 18px 18px; border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--c) 38%, transparent);
+  background: linear-gradient(150deg, color-mix(in srgb, var(--c) 16%, transparent), transparent 62%), var(--panel-solid);
+  box-shadow: 0 16px 34px -28px var(--shadow);
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+  animation: rise .5s ease both;
+}
+.dept-tile::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px; background: var(--c); }
+.dept-tile:hover { transform: translateY(-4px); border-color: var(--c); box-shadow: 0 22px 40px -26px color-mix(in srgb, var(--c) 70%, transparent); }
+.tile-bg {
+  position: absolute; right: -20%; bottom: -20%; width: 66%; height: auto; aspect-ratio: 1;
+  fill: none; stroke: var(--c); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round;
+  opacity: .08; transform: rotate(-10deg); pointer-events: none;
+}
+.tile-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: auto; position: relative; }
+.tile-icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: var(--c); color: var(--on, #fff); box-shadow: 0 10px 20px -12px var(--c); }
+.tile-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.tile-code {
+  font-family: var(--font-mono); font-weight: 700; font-size: 12px; padding: 3px 9px; border-radius: 999px;
+  color: color-mix(in srgb, var(--c-text, var(--c)) 80%, var(--text));
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+}
+.tile-name { position: relative; margin: 10px 0 0; font-size: 15px; font-weight: 800; line-height: 1.25; color: var(--text); }
+.tile-desc { position: relative; margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+.tile-count { position: relative; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: color-mix(in srgb, var(--c-text, var(--c)) 80%, var(--text)); }
+@media (max-width: 1180px) {
+  .dept-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dept-tile { min-height: 220px; }
+}
+@media (max-width: 860px) {
+  .dept-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .dept-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .dept-tile { min-height: 0; padding: 16px 14px 14px; border-radius: 16px; }
+  .tile-icon { width: 40px; height: 40px; border-radius: 12px; }
+  .tile-icon svg { width: 21px; height: 21px; }
+  .tile-name { font-size: 14px; margin-top: 8px; }
+  .tile-desc { font-size: 12px; }
+}
+
+/* ---------- інфографіка кафедр на головній ---------- */
+.dept-figure {
+  margin: 0 0 26px; padding: 10px; border-radius: 22px;
+  background: #fff; border: 1px solid var(--line-2);
+  box-shadow: 0 24px 50px -36px var(--shadow);
+  animation: rise .5s ease both;
+}
+.dept-figure img { display: block; width: 100%; height: auto; border-radius: 14px; }
+.dept-figure .fig-dark { display: none; }
+/* темна тема: темна версія картинки на фоні того ж кольору, що й панелі */
+:root[data-bl-theme="dark"] .dept-figure { background: #10151d; border-color: var(--line-2); box-shadow: 0 30px 60px -40px rgba(0, 0, 0, .9); }
+:root[data-bl-theme="dark"] .dept-figure .fig-light { display: none; }
+:root[data-bl-theme="dark"] .dept-figure .fig-dark { display: block; }
+@media (max-width: 600px) { .dept-figure { padding: 6px; border-radius: 16px; } }
+
 /* ---------- адаптивність ---------- */
 @media (max-width: 1080px) {
   .cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -333,7 +392,9 @@ main {
 @media (max-width: 600px) {
   main { padding-block: 24px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .topbar { flex-wrap: wrap; gap: 10px 14px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-  .brand { margin-left: auto; }
+  .brand { margin-right: auto; }
+  .brand-name { font-size: 21px; }
+  .brand-mark { height: 28px; }
   .ticker { order: 3; flex-basis: 100%; }
   .theme-btn span { display: none; }
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
